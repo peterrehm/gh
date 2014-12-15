@@ -14,5 +14,11 @@
         "psr-4" : {
             "peterrehm\\gh\\" : "src"
         }
+    },
+    "bin": [
+        "gh"
+    ],
+    "config": {
+        "bin-dir": "bin"
     }
 }

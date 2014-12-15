@@ -43,6 +43,12 @@ class ChangelogCommand extends BaseCommand
             $output->writeln(sprintf('<comment>Changelog</comment> for reference range <info>%s</info>:', $referenceRange));
         }
 
+        // skip if no changes have been detected
+        if (empty($changelog)) {
+            $output->writeln('No merge commits have been found.');
+            return;
+        }
+
         $changelog = explode(PHP_EOL, $changelog);
         foreach ($changelog as $entry) {
             $output->writeln('* ' . $entry);

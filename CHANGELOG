@@ -1,0 +1,6 @@
+Changelog
+=========
+
+* 1.0.0-alpha1
+    * feature #2 Added changelog command (peterrehm)
+    * feature #1 Added sha2pr command to show merge commit information (peterrehm)

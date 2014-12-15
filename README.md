@@ -23,3 +23,19 @@ Start with
 to setup your GitHub token.
 
 Afterwards use `./gh` to get an overview over the available functions.
+
+Installation
+============
+
+`gh` can be installed via composer.
+
+````
+    composer global require 'peterrehm/gh=dev-master'
+````
+
+Make sure you have defined the following export path as well:
+
+````
+    export PATH=~/.composer/vendor/bin:$PATH
+````
+
