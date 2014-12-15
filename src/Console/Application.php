@@ -5,6 +5,7 @@ namespace peterrehm\gh\Console;
 use Github\Client;
 use peterrehm\gh\Command\ConfigureCommand;
 use peterrehm\gh\Command\MergeCommand;
+use peterrehm\gh\Command\SHA2PRCommand;
 use peterrehm\gh\Helper\GitHelper;
 use peterrehm\gh\Helper\ProcessHelper;
 use peterrehm\gh\Helper\TemplatingHelper;
@@ -44,11 +45,15 @@ class Application extends BaseApplication
 
         $this->addCommands([
             new ConfigureCommand(),
-            new MergeCommand($this->username, $this->repository)
+            new MergeCommand($this->username, $this->repository),
+            new SHA2PRCommand($this->username, $this->repository),
         ]);
 
     }
 
+    /**
+     * Authenticates github client
+     */
     private function authenticateClient()
     {
         $fileName = $_SERVER['HOME'] . '/.gh/.gh.yml';
@@ -67,8 +72,12 @@ class Application extends BaseApplication
         }
     }
 
+    /**
+     * Fetch the repository information
+     */
     private function getRepositoryData()
     {
+        /** @var ProcessHelper $processHelper */
         $processHelper = $this->getHelperSet()->get('process');
         $gitRoot = $processHelper->runProcess('git rev-parse --show-toplevel');
 
