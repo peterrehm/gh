@@ -29,12 +29,12 @@ class ConfigureCommand extends BaseCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Set the gh configuration');
-        $helper = $this->getHelper('question');
+        $questionHelper = $this->getHelper('question');
         $question = new Question('Please enter your GitHub token: ');
-        $token = $helper->ask($input, $output, $question);
+        $token = $questionHelper->ask($input, $output, $question);
         $question = new ConfirmationQuestion('Update configuration? [y/n] ', false);
 
-        if (!$helper->ask($input, $output, $question)) {
+        if (!$questionHelper->ask($input, $output, $question)) {
             return;
         }
 

@@ -14,6 +14,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class MergeCommand extends GitHubBaseCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     public function configure()
     {
         $this
@@ -26,6 +29,9 @@ class MergeCommand extends GitHubBaseCommand
         parent::configure();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var GitHelper $gitHelper */

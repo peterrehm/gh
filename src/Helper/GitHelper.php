@@ -101,6 +101,13 @@ class GitHelper extends Helper
         $processHelper->runProcesses($commands, $recoveryCommands);
     }
 
+    public function getPrForSha($sha, $branch)
+    {
+        /** @var ProcessHelper $processHelper */
+        $processHelper = $this->getHelperSet()->get('process');
+        return $processHelper->runProcess(sprintf('git log --merges --ancestry-path --oneline %s..%s | tail -n 1', $sha, $branch));
+    }
+
     /**
      * {@inheritdoc}
      */
