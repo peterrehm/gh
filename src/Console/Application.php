@@ -3,6 +3,7 @@
 namespace peterrehm\gh\Console;
 
 use Github\Client;
+use peterrehm\gh\Command\ChangelogCommand;
 use peterrehm\gh\Command\ConfigureCommand;
 use peterrehm\gh\Command\MergeCommand;
 use peterrehm\gh\Command\SHA2PRCommand;
@@ -47,6 +48,7 @@ class Application extends BaseApplication
             new ConfigureCommand(),
             new MergeCommand($this->username, $this->repository),
             new SHA2PRCommand($this->username, $this->repository),
+            new ChangelogCommand()
         ]);
 
     }

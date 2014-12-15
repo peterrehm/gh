@@ -101,11 +101,50 @@ class GitHelper extends Helper
         $processHelper->runProcesses($commands, $recoveryCommands);
     }
 
+    /**
+     * Fetches the merge commit message for a given sha
+     *
+     * @param string $sha
+     * @param string $branch
+     * @return null|string
+     */
     public function getPrForSha($sha, $branch)
     {
         /** @var ProcessHelper $processHelper */
         $processHelper = $this->getHelperSet()->get('process');
         return $processHelper->runProcess(sprintf('git log --merges --ancestry-path --oneline %s..%s | tail -n 1', $sha, $branch));
+    }
+
+    /**
+     * Fetch the latest tag
+     *
+     * @return null|string
+     */
+    public function getLastTag()
+    {
+        /** @var ProcessHelper $processHelper */
+        $processHelper = $this->getHelperSet()->get('process');
+        return $processHelper->runProcess('git describe --tags --abbrev=0');
+    }
+
+    /**
+     * Fetches the merge commit descriptions for a given revision or since initial commit
+     *
+     * @param string $reference
+     * @return null|string
+     */
+    public function showChangelog($reference = null)
+    {
+        /** @var ProcessHelper $processHelper */
+        $processHelper = $this->getHelperSet()->get('process');
+
+        $command = 'git log --merges --format="%s"';
+
+        if (null !== $reference) {
+            $command .= ' ' . $reference;
+        }
+
+        return $processHelper->runProcess($command);
     }
 
     /**
