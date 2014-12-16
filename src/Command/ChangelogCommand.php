@@ -37,7 +37,7 @@ class ChangelogCommand extends BaseCommand
             throw new \RuntimeException('Changelog could not be retrieved. Check the range option or your repository.');
         }
 
-        if (null == $referenceRange) {
+        if (null === $referenceRange) {
             $output->writeln('<comment>Changelog</comment> since initial commit:');
         } else {
             $output->writeln(sprintf('<comment>Changelog</comment> for reference range <info>%s</info>:', $referenceRange));
