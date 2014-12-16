@@ -43,10 +43,11 @@ class GitHelper extends Helper
     /**
      * Executes a remote merge
      *
-     * @param string  $username
-     * @param string  $targetBranch
+     * @param string $username
+     * @param string $targetBranch
      * @param integer $pullRequest
-     * @param string  $message
+     * @param string $message
+     * @return bool true if all commands have been executed successfully
      */
     public function mergeRemote($username, $targetBranch, $pullRequest, $message)
     {
@@ -98,7 +99,8 @@ class GitHelper extends Helper
             # restore the stashes
             $recoveryCommands[] = sprintf('git stash pop', $previousBranch);
         }
-        $processHelper->runProcesses($commands, $recoveryCommands);
+
+        return $processHelper->runProcesses($commands, $recoveryCommands);
     }
 
     /**
