@@ -85,13 +85,10 @@ class MergeCommand extends GitHubBaseCommand
             array('prType' => $prType, 'pr' => $pr, 'commits' => $commits)
         );
 
-
-        $gitHelper->mergeRemote($input->getOption('username'), 'master', $input->getArgument('pr'), $commitMessage);
-
-        $pr = $client->pullRequest()->show($input->getOption('username'), $input->getOption('repository'), $input->getArgument('pr'));
+        $merged = $gitHelper->mergeRemote($input->getOption('username'), 'master', $input->getArgument('pr'), $commitMessage);
 
         // check if the PR has been merged
-        if (false === $pr['merged']) {
+        if (false === $merged) {
             $output->writeln('<error>The pull request could not be merged.</error>');
             return;
         }

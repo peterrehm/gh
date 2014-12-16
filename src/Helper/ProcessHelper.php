@@ -32,6 +32,7 @@ class ProcessHelper extends Helper
      *
      * @param array $commands
      * @param array $recoveryCommands
+     * @return bool false if an error occurred otherwise true - errors in the recovery commands will not be watched
      */
     public function runProcesses(array $commands, array $recoveryCommands = [])
     {
@@ -45,12 +46,15 @@ class ProcessHelper extends Helper
         }
 
         if (false === $commandError) {
-            return;
+            return true;
         }
 
+        // errors in the recovery mode will be ignored
         foreach($recoveryCommands as $command) {
             $this->runProcess($command);
         }
+
+        return false;
     }
 
     /**
