@@ -5,9 +5,9 @@
     "require" : {
         "php": ">=5.4",
         "knplabs/github-api": "~1.2",
-        "symfony/console": "~2.6",
-        "symfony/yaml": "~2.6",
-        "symfony/process": "~2.6",
+        "symfony/console": "~2.7",
+        "symfony/yaml": "~2.7",
+        "symfony/process": "~2.7",
         "twig/twig": "~1.0"
     },
     "autoload" : {
