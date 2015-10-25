@@ -95,6 +95,13 @@ class MergeCommand extends GitHubBaseCommand
             return;
         }
 
+        $pr = $client->pullRequest()->show($input->getOption('username'), $input->getOption('repository'), $input->getArgument('pr'));
+
+        // In case of a rebase the PR might not be closed, so close automatically
+        if (false === $pr['merged']) {
+            $client->pullRequest()->update($input->getOption('username'), $input->getOption('repository'), $input->getArgument('pr'), ['state' => 'closed']);
+        }
+
         $output->writeln('The pull request has been merged successfully.');
     }
 } 
