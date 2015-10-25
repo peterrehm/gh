@@ -1,4 +1,4 @@
-{{ prType }} #{{ pr.number }} {{ pr.title }} ({{ pr.user.login }})
+{{ prType }} #{{ pr.number }} {{ pr.title|raw }} ({{ pr.user.login }})
 
 Discussion
 ----------
@@ -9,5 +9,5 @@ Commits
 -------
 
 {% for commit in commits %}
-- {{ commit.sha[:7] }} {{ commit.commit.message }} ({{ commit.committer.login }})
+- {{ commit.sha[:7] }} {{ commit.commit.message|raw }} ({{ commit.committer.login }})
 {% endfor %}
