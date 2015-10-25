@@ -24,7 +24,7 @@ class MergeCommand extends GitHubBaseCommand
             ->setDescription('Merges the pull request given')
             ->addArgument('pr', InputArgument::REQUIRED, 'Pull Request number')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Enforce the merge if PR is in unstable state')
-        ;
+            ->addOption('branch', null, InputOption::VALUE_REQUIRED, 'Target branch', 'master');
 
         parent::configure();
     }
@@ -39,6 +39,8 @@ class MergeCommand extends GitHubBaseCommand
 
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
+
+        $branch = $input->getOption('branch');
 
         // fetch the PR information
         $client = $this->getClient();
@@ -65,7 +67,7 @@ class MergeCommand extends GitHubBaseCommand
         );
 
         $prType = $questionHelper->ask($input, $output, $question);
-        $question = new ConfirmationQuestion(sprintf('Merge <info>%s</info> PR <info>#%s</info> "<info>%s</info>" by <info>%s</info>? [y/n] ', $prType, $pr['number'], $pr['title'], $pr['user']['login']), false);
+        $question = new ConfirmationQuestion(sprintf('Merge <info>%s</info> PR <info>#%s</info> "<info>%s</info>" by <info>%s</info> into <info>(%s)</info>? [y/n] ', $prType, $pr['number'], $pr['title'], $pr['user']['login'], $branch), false);
 
         if (!$questionHelper->ask($input, $output, $question)) {
             return;
@@ -85,7 +87,7 @@ class MergeCommand extends GitHubBaseCommand
             array('prType' => $prType, 'pr' => $pr, 'commits' => $commits)
         );
 
-        $merged = $gitHelper->mergeRemote($input->getOption('username'), 'master', $input->getArgument('pr'), $commitMessage);
+        $merged = $gitHelper->mergeRemote($input->getOption('username'), $branch, $input->getArgument('pr'), $commitMessage);
 
         // check if the PR has been merged
         if (false === $merged) {
