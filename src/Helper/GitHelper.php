@@ -43,10 +43,10 @@ class GitHelper extends Helper
     /**
      * Executes a remote merge
      *
-     * @param string $username
-     * @param string $targetBranch
+     * @param string  $username
+     * @param string  $targetBranch
      * @param integer $pullRequest
-     * @param string $message
+     * @param string  $message
      * @return bool true if all commands have been executed successfully
      */
     public function mergeRemote($username, $targetBranch, $pullRequest, $message)
@@ -67,6 +67,15 @@ class GitHelper extends Helper
 
         # checkout the current state of the remote repository
         $commands[] = sprintf('git checkout %s/%s -b tmp_%s', $username, $targetBranch, $targetBranch);
+
+        # checkout the pr branch
+        $commands[] = sprintf('git checkout pr_%d', $pullRequest);
+
+        # rebase the commits
+        $commands[] = sprintf('git rebase tmp_%s', $targetBranch);
+
+        # switch back to the target branch
+        $commands[] = sprintf('git checkout tmp_%s', $targetBranch);
 
         # perform the merge
         $commands[] = sprintf('git merge pr_%d --no-ff -m "%s"', $pullRequest, $message);
