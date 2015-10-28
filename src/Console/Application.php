@@ -7,6 +7,7 @@ use peterrehm\gh\Command\ChangelogCommand;
 use peterrehm\gh\Command\ConfigureCommand;
 use peterrehm\gh\Command\MergeCommand;
 use peterrehm\gh\Command\SHA2PRCommand;
+use peterrehm\gh\Command\SyncCommand;
 use peterrehm\gh\Helper\GitHelper;
 use peterrehm\gh\Helper\ProcessHelper;
 use peterrehm\gh\Helper\TemplatingHelper;
@@ -16,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class Application extends BaseApplication
 {
     const NAME = 'gh';
-    const VERSION = '1.0.0-alpha1';
+    const VERSION = '1.0.0-alpha3';
 
     /**
      * @var Client
@@ -48,7 +49,8 @@ class Application extends BaseApplication
             new ConfigureCommand(),
             new MergeCommand($this->username, $this->repository),
             new SHA2PRCommand($this->username, $this->repository),
-            new ChangelogCommand()
+            new SyncCommand($this->username, $this->repository),
+            new ChangelogCommand(),
         ]);
 
     }

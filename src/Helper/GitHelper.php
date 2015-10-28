@@ -23,6 +23,13 @@ class GitHelper extends Helper
         return '' === $processHelper->runProcess('git status --porcelain --untracked-files=no');
     }
 
+    public function localBranchExists($branch)
+    {
+        /** @var ProcessHelper $processHelper */
+        $processHelper = $this->getHelperSet()->get('process');
+        return NULL !== $processHelper->runProcess(sprintf('git rev-parse --verify %s', $branch));
+    }
+
     /**
      * Checks if remote is configured as git remote and adds otherwise
      *
@@ -92,7 +99,7 @@ class GitHelper extends Helper
         # delete the tmp branch after merge
         $commands[] = sprintf('git branch -d tmp_%s', $targetBranch);
 
-        if (false ===$workingDirectoryClean) {
+        if (false === $workingDirectoryClean) {
             # restore the stashes
             $commands[] = sprintf('git stash pop', $previousBranch);
         }
@@ -104,7 +111,7 @@ class GitHelper extends Helper
         ];
 
         // recover stashes only if working directory was dirty
-        if (false ===$workingDirectoryClean) {
+        if (false === $workingDirectoryClean) {
             # restore the stashes
             $recoveryCommands[] = sprintf('git stash pop', $previousBranch);
         }
@@ -156,6 +163,63 @@ class GitHelper extends Helper
         }
 
         return $processHelper->runProcess($command);
+    }
+
+    /**
+     * Executes a remote merge
+     *
+     * @param string  $username
+     * @param string  $branch
+     * @param string  $remote
+     * @return bool true if all commands have been executed successfully
+     */
+    public function syncBranches($username, $branch, $remote)
+    {
+        /** @var ProcessHelper $processHelper */
+        $processHelper = $this->getHelperSet()->get('process');
+
+        $previousBranch = $this->getCurrentBranch();
+        $workingDirectoryClean = $this->workingDirectoryIsClean();
+        $localBranchExists = $this->localBranchExists($branch);
+
+        $commands = [];
+
+        # stash all current changes
+        $commands[] = 'git stash';
+
+        # update local branch or checkout new branch from main repository
+        if ($localBranchExists) {
+            $commands[] = sprintf('git checkout %s', $branch);
+            $commands[] = sprintf('git rebase %s/%s', $username, $branch);
+        } else {
+            $commands[] = sprintf('git fetch %s', $username);
+            $commands[] = sprintf('git checkout -b %s %s/%s', $branch, $username, $branch);
+        }
+
+        # checkout the previous branch
+        $commands[] = sprintf('git push %s %s', $remote, $branch);
+
+        # checkout the previous branch
+        $commands[] = sprintf('git checkout %s', $previousBranch);
+
+        if (false === $workingDirectoryClean) {
+            # restore the stashes
+            $commands[] = sprintf('git stash pop', $previousBranch);
+        }
+
+        $recoveryCommands = [
+            sprintf('git checkout %s', $previousBranch),
+        ];
+
+        $commands[] = sprintf('git fetch %s', $remote);
+
+        // recover stashes only if working directory was dirty
+        if (false === $workingDirectoryClean) {
+            # restore the stashes
+            $recoveryCommands[] = sprintf('git stash pop', $previousBranch);
+        }
+
+        return $processHelper->runProcesses($commands, $recoveryCommands);
     }
 
     /**
