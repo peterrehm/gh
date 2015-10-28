@@ -13,7 +13,6 @@ the repository.
 gh also expects by convention a remote with the organization name. If such
 does not exist gh creates one when a command needs it.
 
-
 Start with
 
 ````
