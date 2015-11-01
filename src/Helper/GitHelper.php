@@ -66,6 +66,9 @@ class GitHelper extends Helper
 
         $commands = [];
 
+        # make sure all changes are staged
+        $commands[] = 'git add .';
+
         # stash all current changes
         $commands[] = 'git stash';
 
@@ -183,6 +186,9 @@ class GitHelper extends Helper
         $localBranchExists = $this->localBranchExists($branch);
 
         $commands = [];
+
+        # make sure all changes are staged
+        $commands[] = 'git add .';
 
         # stash all current changes
         $commands[] = 'git stash';
