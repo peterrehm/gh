@@ -88,7 +88,7 @@ class GitHelper extends Helper
         $commands[] = sprintf('git checkout tmp_%s', $targetBranch);
 
         # perform the merge
-        $commands[] = sprintf('git merge pr_%d --no-ff -m "%s"', $pullRequest, escapeshellarg($message));
+        $commands[] = sprintf('git merge pr_%d --no-ff -m %s', $pullRequest, escapeshellarg(trim($message)));
 
         # delete the reference after merge
         $commands[] = sprintf('git branch -d pr_%d',$pullRequest);
