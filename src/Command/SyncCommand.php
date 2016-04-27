@@ -3,12 +3,10 @@
 namespace peterrehm\gh\Command;
 
 use peterrehm\gh\Helper\GitHelper;
-use peterrehm\gh\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Sync branch from main repository to local branch and back to remote
