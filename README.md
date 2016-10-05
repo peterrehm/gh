@@ -37,4 +37,4 @@ Make sure you have defined the following export path as well:
 ````
     export PATH=~/.composer/vendor/bin:$PATH
 ````
-
+When using Zsh the export path in .zshrc must be updated. Also you should use the complete path instead of ~/. 
