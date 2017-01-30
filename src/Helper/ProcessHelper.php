@@ -17,6 +17,7 @@ class ProcessHelper extends Helper
     public function runProcess($command)
     {
         $process = new Process($command);
+        $process->setTimeout(600);
         $process->run();
 
         if (false === $process->isSuccessful()) {
