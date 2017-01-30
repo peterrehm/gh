@@ -1,6 +1,24 @@
 Changelog
 =========
 
+* 1.0.0
+
+* minor #14 Readme-Update für zsh-Shells (SimonStasius)
+* bug #12 Fixed additional quote in merge commit (peterrehm)
+* bug #10 Escape quotes in commit message (peterrehm)
+* bug #8 Stage all files prior to the stash to ensure all new work is saved properly (peterrehm)
+* feature #7 Added sync command (peterrehm)
+
+* 1.0.0-alpha3
+
+* bug #6 Close PR after rebased commits (peterrehm)
+* bug #5 Fixed issue with html escaping (peterrehm)
+* feature #4 Support different target branches and automatically rebase before merge (peterrehm)
+
+* 1.0.0-alpha2
+* bug #3 Fixed merge command to show proper information after merge (peterrehm)
+
 * 1.0.0-alpha1
-    * feature #2 Added changelog command (peterrehm)
-    * feature #1 Added sha2pr command to show merge commit information (peterrehm)
+
+* feature #2 Added changelog command (peterrehm)
+* feature #1 Added sha2pr command to show merge commit information (peterrehm)
