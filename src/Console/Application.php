@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class Application extends BaseApplication
 {
     const NAME = 'gh';
-    const VERSION = '1.0.0-alpha3';
+    const VERSION = '1.0.0';
 
     /**
      * @var Client
