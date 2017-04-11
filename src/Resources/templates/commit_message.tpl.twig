@@ -9,5 +9,5 @@ Commits
 -------
 
 {% for commit in commits %}
-- {{ commit.sha[:7] }} {{ commit.commit.message|raw }} ({{ commit.committer.login }})
+- {{ commit.sha[:7] }} {{ commit.commit.message|raw }} ({{ commit.committer.login ??  commit.commit.committer.name }})
 {% endfor %}
